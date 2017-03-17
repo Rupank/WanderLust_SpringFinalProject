@@ -86,6 +86,5 @@ public class AdminDaoImplMMT implements AdminDao{
 		return row;
 		
 	}
-
-	
+		
 }
