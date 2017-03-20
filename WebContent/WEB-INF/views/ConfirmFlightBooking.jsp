@@ -23,7 +23,7 @@ color:maroon;
 </head>
 <body>
 
-<form:form action="./ConfirmBooking"  >
+<form:form action="./ConfirmFlightBooking"  >
 <table border="1">
 <tr><td>Source:</td><td>${flightPicked.flightSource}</td></tr>
 <tr> <td>Destination:</td><td>${flightPicked.flightDestination}</td></tr>

@@ -11,11 +11,11 @@
 <title>Choose Promo</title>
 <script>
 	function loadDoc() {
-
 		document.getElementById("demo").innerHTML = "Congrats! You got a discount of "
-				+ '${pdiscountFlight}'
+				+ '${pdiscountHotel}'
 				+ "%<br>Your Promotion ID is "
-				+ ' ${pidFlight}';
+				+ ' ${pidHotel}';
+
 	}
 </script>
 <style>
@@ -32,13 +32,13 @@
 </style>
 </head>
 <body>
-	<form:form action="./Payment" commandName="pickedPromoCode">
+	<form:form action="./PaymentHotel" commandName="pickedPromoCode">
 
 
 		<p>
 			<b>Select a Promo Code</b>
 			<form:select path="promotionId">
-				<c:forEach var="element" items="${arrayListPromoFlight}">
+				<c:forEach var="element" items="${arrayListPromoHotel}">
 					<form:option value="${element.promotionId}">${element.promotionName} </form:option>
 				</c:forEach>
 			</form:select>

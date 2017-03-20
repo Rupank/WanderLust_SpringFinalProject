@@ -23,13 +23,11 @@ Wallet Status&nbsp; :&nbsp;${balance}<br>
 ${msg}
 </div>
 <c:if test="${not empty messageFlight}">
-<c:redirect url="./ConfirmBooking"/>
+<c:redirect url="./ConfirmFlightBooking"/>
     
 </c:if>
 <c:if test="${not empty messageHotel}">
-<jsp:forward page="ConfirmHotelBooking.jsp" >
-<jsp:param name="name" value="${hotelRoomNo}" /> 
-</jsp:forward> 
+<c:redirect url="./ConfirmHotelBooking"/>
    
    
     

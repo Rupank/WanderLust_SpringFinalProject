@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -16,7 +18,7 @@ color: dark grey;
 </style>
 <style >
 body {
-background-image: url(images/img.jpg); /*You will specify your image path here.*/
+background-image: url(static/images/img.jpg); /*You will specify your image path here.*/
 -moz-background-size: cover;
 -webkit-background-size: cover;
 background-size: cover;
@@ -52,17 +54,14 @@ background-attachment: fixed;
 			<li><a href="./LoogedInFlightForm">Flight</a></li>
 
 
-			<li><a href="LoggInHotelForm.jsp">Hotel</a></li>
+			<li><a href="./LoggInHotelForm">Hotel</a></li>
 
 
 			<li><a href="./UserPastFlight">Past Flight Bookings</a></li>
 			<li><a href="./UserPastHotel">Past Hotel Bookings</a></li>
-			<li><a href="Wallet.jsp"> Wallet</a></li>
+			<li><a href="./Wallet"> Wallet</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-
-			<c:set var="userName" scope="session" value="${user.getUserName()}" />
-
 
 			<li><a href="./UserProfile"><span
 					class="glyphicon glyphicon-user"></span> ${user.getUserName()} </a></li>

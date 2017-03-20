@@ -24,7 +24,7 @@ color: #318c8a;
 </style>
 <style >
 body {
-background-image: url("/static/images/bodyBackground.jpg"); /*You will specify your image path here.*/
+background-image: url("static/images/img.jpg"); /*You will specify your image path here.*/
 
 -moz-background-size: cover;
 -webkit-background-size: cover;

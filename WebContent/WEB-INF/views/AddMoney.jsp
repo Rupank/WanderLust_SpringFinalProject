@@ -37,11 +37,12 @@ ${messageHotel}
 
 <fieldset>
 
-Amount&nbsp;&nbsp;  :&nbsp; &nbsp; <form:input path="walletBalance" placeholder="Enter Amount" id="amount"  onblur="check();"/><br>
+Amount&nbsp;&nbsp;  :&nbsp; &nbsp; 
+<form:input path="walletBalance" placeholder="Enter Amount" id="amount"  onblur="check();"/><br>
 <button type="submit">Add</button>
 
 
-<div id ="demo"  data_messageFlight=${messageFlight} moneyRequired=${moneyToBeAdded}></div>
+<div id ="demo" > data_messageFlight= ${messageFlight} moneyRequired=${moneyToBeAdded}</div>
 </fieldset>
 <br>
 <br>
