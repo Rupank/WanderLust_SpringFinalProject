@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -10,11 +12,6 @@
 <script>
 
 function check(){
-	
-	
-	
-	
-	
 	var demo = document.getElementById("demo"), msgFlight,moneyRequired;
 	msgFlight = demo.getAttribute("data_messageFlight");
 	moneyRequired = demo.getAttribute("moneyRequired");
@@ -27,7 +24,7 @@ function check(){
 </script>
 </head>
 <body>
-<form action="./MoneyAddded">
+<form:form action="./MoneyAddded" commandName="wallet">
 <c:choose>
 <c:when test="${not empty messageFlight}">
 ${messageFlight}   
@@ -40,13 +37,14 @@ ${messageHotel}
 
 <fieldset>
 
-Amount&nbsp;&nbsp;  :&nbsp; &nbsp; <input type="number" min="0" required="required" placeholder="Enter Amount"  id="amount" name="amount" onblur="check();"/><br>
-<input type="submit" value="Add" id="add" >
+Amount&nbsp;&nbsp;  :&nbsp; &nbsp; <form:input path="walletBalance" placeholder="Enter Amount" id="amount"  onblur="check();"/><br>
+<button type="submit">Add</button>
+
 
 <div id ="demo"  data_messageFlight=${messageFlight} moneyRequired=${moneyToBeAdded}></div>
 </fieldset>
 <br>
 <br>
-</form>
+</form:form>
 </body>
 </html>

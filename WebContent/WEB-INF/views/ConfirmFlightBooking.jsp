@@ -28,7 +28,7 @@ color:maroon;
 <tr><td>Source:</td><td>${flightPicked.flightSource}</td></tr>
 <tr> <td>Destination:</td><td>${flightPicked.flightDestination}</td></tr>
 <tr><td> Flight Company:</td><td>${flightPicked.flightCompanyName}</td></tr>
- <tr><td>Date of Flight:</td><td>${}</td></tr>
+ <tr><td>Date of Flight:</td><td>${departureDate}</td></tr>
  <tr><td>Departure Time:</td><td>${flightPicked.flightDepartureTime}</td></tr>
  <tr><td>Arrival Time:</td><td>${flightPicked.flightArrivalTime}</td></tr>
  <tr><td>Amount to be paid:</td><td>${finalValuetobepaid}</td></tr>
