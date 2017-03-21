@@ -23,11 +23,11 @@ Wallet Status&nbsp; :&nbsp;${balance}<br>
 ${msg}
 </div>
 <c:if test="${not empty messageFlight}">
-<c:redirect url="./ConfirmFlightBooking"/>
+<c:redirect url="./ConfirmFlightBooking2"/>
     
 </c:if>
 <c:if test="${not empty messageHotel}">
-<c:redirect url="./ConfirmHotelBooking"/>
+<c:redirect url="./ConfirmHotelBooking2"/>
    
    
     

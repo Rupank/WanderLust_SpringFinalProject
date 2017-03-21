@@ -23,10 +23,10 @@ color:maroon;
 	<form action="./ConfirmHotelBooking">
 <table border="1">		
 	<tr><td>		Hotel Name:</td><td>${hotel.hotelName}</td></tr>
-	<tr><td>	 Room No:</td><td> ${roomNo}</td></tr>
+	<tr><td>	 Room No:</td><td> ${hotelRoomNo}</td></tr>
 	<tr><td>	 Location:</td><td>${hotel.hotelLocation}</td></tr>
-	<tr><td>	 CheckIn Date: </td><td>${dcheckIn}</td></tr>
-	<tr><td>	 CheckOut Date:</td><td> ${dcheckOut}</td></tr>
+	<tr><td>	 CheckIn Date: </td><td>${from}</td></tr>
+	<tr><td>	 CheckOut Date:</td><td> ${to}</td></tr>
 	<tr><td>	 Amount to be paid: </td><td>${finalValuetobepaidHotel}</td></tr>
 		<tr><td></td><td> <input type="submit" value="Confirm Hotel Booking"></td></tr>
 </table>
