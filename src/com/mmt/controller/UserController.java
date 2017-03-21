@@ -14,6 +14,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,9 +46,11 @@ import com.mmt.model.bl.WalletBlMMT;
 		"moneyToBeAdded", "messageFlight", "departureDate", "balance", "msg", "viewedFlightDetails", "noOfRooms", "din",
 		"dout", "duration", "pickedHotelID", "hotelRoomNo", "RoomPrice", "from", "to", "finalValuetobepaidHotel",
 		"messageHotel", "hotelBooking" })
-public class UserController {
+public class UserController { 
+	
 	AdminBlMMT adminBlMMT = new AdminBlMMT();
-	UserBlMMT blMMT = new UserBlMMT();
+	@Autowired
+	UserBlMMT blMMT ;
 	FlightBookingBlMMT flightBookingBlMMT = new FlightBookingBlMMT();
 	HotelBlMMT hotelBlMMT = new HotelBlMMT();
 	WalletBlMMT walletBl = new WalletBlMMT();
@@ -516,12 +519,10 @@ public class UserController {
 					flight.getFlightSource(), flight.getFlightDestination(), seats);
 			System.out.println("flightBooking" + flightBooking);
 			if (flightBooking != null) {
-				String messageFlight = (String) model.get("messageFlight");
-				//messageFlight = null;
+				model.remove("messageFlight");
 				session.removeAttribute("messageFlight");
-				//modelAndView.addObject("messageFlight", messageFlight);
-				model.addAttribute("flightBooking", flightBooking);
-				//modelAndView.addObject("flightBooking", flightBooking);
+				String messageFlight = (String) model.get("messageFlight");
+				model.addAttribute("flightBooking", flightBooking );
 				modelAndView.setViewName("FinalFlightStep");
 			} else if (flightBooking == null) {
 
@@ -563,9 +564,10 @@ public class UserController {
 
 				String messageHotel = (String) model.get("messageHotel");
 //				messageHotel = null;
-//				model.addAttribute("hotelBooking", hotelBooking);
+			model.addAttribute("hotelBooking", hotelBooking);
+				model.remove("messageHotel");
 				session.removeAttribute("messageHotel");
-				modelAndView.addObject("messageHotel", messageHotel);
+				//modelAndView.addObject("messageHotel", messageHotel);
 				modelAndView.setViewName("FinalHotelStep");
 
 			} else {
@@ -573,8 +575,8 @@ public class UserController {
 				paymentStatus = walletBl.addWalletMoney(user.getUserId(), valueAfterPromotion);
 				
 				String messageHotel = (String) model.get("messageHotel");
-				messageHotel = null;
-				modelAndView.addObject("messageHotel", messageHotel);
+				model.remove("messageHotel");
+				session.removeAttribute("messageHotel");
 				modelAndView.setViewName("NoHotelBooking");
 			}
 		}

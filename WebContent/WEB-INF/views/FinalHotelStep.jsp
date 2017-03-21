@@ -11,7 +11,7 @@
 <body>
 <form action="./UserLogin">
 	Booking Confirmed!!<br>
-	Booking ID: ${hotelBooking.getHotelBookingId()}<br><br>
+	Booking ID: ${hotelBooking.hotelBookingId}<br><br>
 	<input type="submit" value="Okay">
 	</form>
 </body>

@@ -13,7 +13,7 @@
 <body>
 	<form:form action="./UserLogin" >
 	Booking Confirmed!!<br>
-	Booking ID: ${flightBooking.getFlightBookingId()}<br><br>
+	Booking ID: ${flightBooking.flightBookingId}<br><br>
 	<input type="submit" value="Okay">
 	</form:form>
 </body>
