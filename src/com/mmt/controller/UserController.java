@@ -15,10 +15,12 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -72,9 +74,14 @@ public class UserController {
 	}
 
 	@RequestMapping("/userRegister")
-	public ModelAndView userRegisterStatus(@ModelAttribute("user") User user) {
+	public ModelAndView userRegisterStatus(@Valid User user, BindingResult result) throws ClassNotFoundException, SQLException, IOException {
 		ModelAndView modelAndView = new ModelAndView();
-		try {
+		if(result.hasErrors()){
+			modelAndView.setViewName("index");
+			
+		} 
+		else{
+
 			if (userBl.register(user)) {
 				modelAndView.addObject("message", user.getUserName() + " Successfully registered");
 				modelAndView.setViewName("loginUnregistered");
@@ -83,9 +90,7 @@ public class UserController {
 				modelAndView.addObject("message", user.getUserName() + " Successfully  not registered");
 				modelAndView.setViewName("index");
 			}
-		} catch (ClassNotFoundException | SQLException | IOException e) {
-
-			e.printStackTrace();
+		
 		}
 		return modelAndView;
 
@@ -117,6 +122,7 @@ public class UserController {
 	@RequestMapping("/signup")
 	public ModelAndView returnSignupForm() {
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("user", new User());
 		modelAndView.setViewName("index");
 		return modelAndView;
 

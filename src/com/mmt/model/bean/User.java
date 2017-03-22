@@ -5,24 +5,34 @@ import java.io.Serializable;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
 
+import com.mmt.validator.Password;
+import com.mmt.validator.Phone;
+
 @Component
-public class User implements Serializable{
-	
-	@Size(min=4, max=12)
+public class User implements Serializable {
+
+	@NotEmpty
+	@Length(min = 1, max = 30)
 	private String userId;
-	@Size(min=4, max=20)
+	@NotEmpty
+	@Length(min = 1, max = 20)
 	private String userName;
-//	@ValidatePhone
-	private long userPhoneNo;
+	@NotEmpty
+	@Phone
+	private String userPhoneNo;
+
 	@NotEmpty
 	@Email
 	private String userEmailId;
-	@Size(min=20, max=50)
+	@Length(min = 10, max = 50)
 	private String userAddress;
-	@Size(min=8, max=20)
+	@Length(min = 3, max = 20)
+	@Password
+	@NotEmpty
 	private String userPassword;
 
 	public User() {
@@ -30,7 +40,7 @@ public class User implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(String userId, String userName, long userPhoneNo, String userEmailId, String userAddress,
+	public User(String userId, String userName, String userPhoneNo, String userEmailId, String userAddress,
 			String userPassword) {
 		super();
 		this.userId = userId;
@@ -40,42 +50,55 @@ public class User implements Serializable{
 		this.userAddress = userAddress;
 		this.userPassword = userPassword;
 	}
+
 	public String getUserId() {
 		return userId;
 	}
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	public String getUserName() {
 		return userName;
 	}
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public long getUserPhoneNo() {
+
+	public String getUserPhoneNo() {
 		return userPhoneNo;
 	}
-	public void setUserPhoneNo(long userPhoneNo) {
+
+	public void setUserPhoneNo(String userPhoneNo) {
 		this.userPhoneNo = userPhoneNo;
 	}
+
 	public String getUserEmailId() {
 		return userEmailId;
 	}
+
 	public void setUserEmailId(String userEmailId) {
 		this.userEmailId = userEmailId;
 	}
+
 	public String getUserAddress() {
 		return userAddress;
 	}
+
 	public void setUserAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
+
 	public String getUserPassword() {
 		return userPassword;
 	}
+
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", userPhoneNo=" + userPhoneNo + ", userEmailId="
@@ -83,9 +106,4 @@ public class User implements Serializable{
 
 	}
 
-}	
-
-	
-	
-	
-
+}

@@ -16,7 +16,7 @@ function check(){
 	msgFlight = demo.getAttribute("data_messageFlight");
 	moneyRequired = demo.getAttribute("moneyRequired");
 	if(msgFlight !=null){
-	if(document.getElementById("amount").value < moneyRequired ){
+	if(document.getElementById("walletBalance").value < moneyRequired ){
 		alert("Please Enter the Required Amount");
 	}}
 	
@@ -37,8 +37,9 @@ ${messageHotel}
 
 <fieldset>
 
-Amount&nbsp;&nbsp;  :&nbsp; &nbsp; 
-<form:input path="walletBalance" placeholder="Enter Amount" id="amount"  onblur="check();"/><br>
+Amount&nbsp;&nbsp;  :&nbsp; &nbsp;  
+
+<form:input path="walletBalance"  placeholder="Enter Amount" id="walletBalance" onblur="check();" /><br>
 <button type="submit">Add</button>
 
 
