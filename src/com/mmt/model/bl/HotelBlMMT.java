@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.stereotype.Service;
+
 import com.mmt.model.bean.Hotel;
 import com.mmt.model.bean.HotelBooking;
 import com.mmt.model.bean.HotelRoom;
@@ -14,7 +16,7 @@ import com.mmt.model.dao.HotelDaoImplMMT;
 import com.mmt.model.dao.HotelDaoMMT;
 
 
-
+@Service
 public class HotelBlMMT {
 	HotelDaoMMT hotelDao=new HotelDaoImplMMT();
 	HotelBookingDaoImplMMT hotelBookingDao=new HotelBookingDaoImplMMT();

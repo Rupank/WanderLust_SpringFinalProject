@@ -7,7 +7,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.RequestDispatcher;
@@ -46,17 +48,23 @@ import com.mmt.model.bl.WalletBlMMT;
 		"moneyToBeAdded", "messageFlight", "departureDate", "balance", "msg", "viewedFlightDetails", "noOfRooms", "din",
 		"dout", "duration", "pickedHotelID", "hotelRoomNo", "RoomPrice", "from", "to", "finalValuetobepaidHotel",
 		"messageHotel", "hotelBooking" })
-public class UserController { 
-	
-	AdminBlMMT adminBlMMT = new AdminBlMMT();
+public class UserController {
 	@Autowired
-	UserBlMMT blMMT ;
-	FlightBookingBlMMT flightBookingBlMMT = new FlightBookingBlMMT();
-	HotelBlMMT hotelBlMMT = new HotelBlMMT();
-	WalletBlMMT walletBl = new WalletBlMMT();
-	PromotionBlMMT promotionBlMMT = new PromotionBlMMT();
-	HotelPaymentBl hotelPaymentBl = new HotelPaymentBl();
-	private UserBlMMT userBl = new UserBlMMT();
+	AdminBlMMT adminBlMMT;
+	@Autowired
+	UserBlMMT blMMT;
+	@Autowired
+	FlightBookingBlMMT flightBookingBlMMT;
+	@Autowired
+	HotelBlMMT hotelBlMMT;
+	@Autowired
+	WalletBlMMT walletBl;
+	@Autowired
+	PromotionBlMMT promotionBlMMT;
+	@Autowired
+	HotelPaymentBl hotelPaymentBl;
+	@Autowired
+	UserBlMMT userBl;
 
 	@RequestMapping("/")
 	public String newRegistration(ModelMap model) {
@@ -84,8 +92,9 @@ public class UserController {
 	}
 
 	@RequestMapping("/LoginCheck")
-	public ModelAndView returnDashboard(ModelAndView modelAndView, User user, ModelMap model)
+	public ModelAndView returnDashboard(User user, ModelMap model)
 			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
 		Admin admin = null;
 		modelAndView.addObject("name", user.getUserName());
 		admin = adminBlMMT.checkAdminLogin(user.getUserName(), user.getUserPassword());
@@ -127,6 +136,13 @@ public class UserController {
 
 	}
 
+	@RequestMapping("/HotelForm")
+	public ModelAndView returnHotelForm() {
+		ModelAndView modelAndView = new ModelAndView("HotelForm", "hotelInfo", new Hotel());
+		return modelAndView;
+
+	}
+
 	@RequestMapping("/login")
 	public ModelAndView returnLoginPage() {
 		ModelAndView modelAndView = new ModelAndView("login", "user", new User());
@@ -135,21 +151,25 @@ public class UserController {
 	}
 
 	@RequestMapping("/AddMoney")
-	public ModelAndView returnAddMoney(ModelAndView modelAndView) {
+	public ModelAndView returnAddMoney() {
+		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("AddMoney");
-		modelAndView.addObject("wallet",new Wallet());
+		modelAndView.addObject("wallet", new Wallet());
 		return modelAndView;
 	}
 
 	@RequestMapping("/UserLogin")
-	public ModelAndView returnUserLogin(ModelAndView modelAndView) {
+	public ModelAndView returnUserLogin() {
+		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("UserLogin");
 		return modelAndView;
 	}
 
 	@RequestMapping("/DisplayWallet")
-	public ModelAndView returnDisplayWallet(ModelAndView modelAndView, ModelMap model)
+	public ModelAndView returnDisplayWallet(ModelMap model)
+
 			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
 		WalletBlMMT walletBl = new WalletBlMMT();
 		String preciseBalance = null;
 		double balance = 0;
@@ -169,14 +189,13 @@ public class UserController {
 		return modelAndView;
 
 	}
-	
-	
-	
+
 	@ModelAttribute("flightSourceList")
 	public List<Flight> flightSourceList() throws ClassNotFoundException, SQLException, IOException {
 		List<Flight> flightSourceList = new ArrayList<Flight>();
 
 		flightSourceList = flightBookingBlMMT.displayFlight();
+		// Set<Flight> flightSourceListSet=new HashSet<Flight>();
 
 		return flightSourceList;
 	}
@@ -231,11 +250,11 @@ public class UserController {
 	}
 
 	@RequestMapping("/SearchHotelByPlace")
-	public ModelAndView returnSearchHotelByPlace(@ModelAttribute("hotelInfo") Hotel hotel, ModelAndView modelAndView,
-			ModelMap model, HttpServletRequest request)
-			throws ParseException, ClassNotFoundException, SQLException, IOException {
-//		String pickedHotelID = hotel.getHotelId();
-//		model.addAttribute("pickedHotelID", pickedHotelID);
+	public ModelAndView returnSearchHotelByPlace(@ModelAttribute("hotelInfo") Hotel hotel, ModelMap model,
+			HttpServletRequest request) throws ParseException, ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
+		// String pickedHotelID = hotel.getHotelId();
+		// model.addAttribute("pickedHotelID", pickedHotelID);
 		String place = request.getParameter("place");
 		String from = request.getParameter("from");
 		model.addAttribute("from", from);
@@ -270,10 +289,11 @@ public class UserController {
 	}
 
 	@RequestMapping("/ChooseRoom")
-	public ModelAndView returnChooseRoom(ModelAndView modelAndView, ModelMap model, HttpSession session)
+	public ModelAndView returnChooseRoom(ModelMap model, HttpSession session)
 			throws ClassNotFoundException, SQLException, IOException {
-		String pickedHotelID =(String) session.getAttribute("hotelId");
-		System.out.println("pickedHotelID"+pickedHotelID);
+		ModelAndView modelAndView = new ModelAndView();
+		String pickedHotelID = (String) session.getAttribute("hotelId");
+		System.out.println("pickedHotelID" + pickedHotelID);
 		model.addAttribute("pickedHotelID", pickedHotelID);
 		ArrayList<HotelRoom> arrayListHotelRoom = null;
 
@@ -299,8 +319,9 @@ public class UserController {
 	}
 
 	@RequestMapping("/ChoosePromoHotel")
-	public ModelAndView returnChoosePromoHotel(ModelAndView modelAndView, ModelMap model, HttpSession session)
+	public ModelAndView returnChoosePromoHotel(ModelMap model, HttpSession session)
 			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
 		User user = (User) model.get("userSession");
 		int hotelRoomNo = (int) session.getAttribute("hotelRoomNo");
 		model.addAttribute("hotelRoomNo", hotelRoomNo);
@@ -323,8 +344,9 @@ public class UserController {
 	}
 
 	@RequestMapping("/ChoosePromoFlight")
-	public ModelAndView ChoosePromoFlight(ModelAndView modelAndView, ModelMap model, HttpSession session)
+	public ModelAndView ChoosePromoFlight(ModelMap model, HttpSession session)
 			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
 		User user1 = (User) model.get("userSession");
 		String pickedFlightID = (String) session.getAttribute("flightId");
 		Flight pickedFlight = (Flight) flightBookingBlMMT.searchFlight(pickedFlightID);
@@ -344,29 +366,27 @@ public class UserController {
 	}
 
 	@RequestMapping("/Payment")
-	public ModelAndView returnPaymentWindow(ModelMap model, ModelAndView modelAndView,
-			@ModelAttribute("pickedPromoCode") Promotion promotion1)
+	public ModelAndView returnPaymentWindow(ModelMap model, @ModelAttribute("pickedPromoCode") Promotion promotion1)
 			throws IOException, ClassNotFoundException, SQLException {
+		ModelAndView modelAndView = new ModelAndView();
 		int noOfSeats = (int) model.get("seats");
-		
+
 		System.out.println();
-		System.out.println("noOfSeats"+noOfSeats);
+		System.out.println("noOfSeats" + noOfSeats);
 		System.out.println();
-		
+
 		FlightPaymentBl flightPaymentBl = new FlightPaymentBl();
 		Flight pickedFlight = (Flight) model.get("pickedFlight");
-		
+
 		System.out.println();
-		System.out.println("pickedFlight"+pickedFlight);
+		System.out.println("pickedFlight" + pickedFlight);
 		System.out.println();
-	
+
 		double cartValue = 0;
-		
-		
-		
-		Promotion promotion=promotionBlMMT.searchPromotion(promotion1.getPromotionId());
+
+		Promotion promotion = promotionBlMMT.searchPromotion(promotion1.getPromotionId());
 		cartValue = flightPaymentBl.cartValue(pickedFlight.getFlightTicketPrice(), noOfSeats);
-		
+
 		double valueAfterPromotion = 0;
 		User user = (User) model.get("userSession");
 		if (promotion.getPromotionId() == null) {
@@ -377,7 +397,7 @@ public class UserController {
 					promotionBlMMT.searchPromotion(promotion.getPromotionId()), user.getUserId(), cartValue);
 
 		}
-		
+
 		if (flightPaymentBl.checkFunds(user.getUserId(), valueAfterPromotion)) {
 
 			// THere is sufficient funds in account------------------
@@ -393,13 +413,14 @@ public class UserController {
 			// Redirect to Add money to wallet and then redirect to confirm
 			// payment JSP Page
 			model.addAttribute("finalValuetobepaid", valueAfterPromotion);
-			//modelAndView.addObject("finalValuetobepaid", valueAfterPromotion);
+			// modelAndView.addObject("finalValuetobepaid",
+			// valueAfterPromotion);
 			double moneyToBeAdded = valueAfterPromotion - (walletBl.walletBalance(user.getUserId()));
 			String message = "Add atleast " + moneyToBeAdded + " to Wallet to book flight seat";
 			model.addAttribute("moneyToBeAdded", moneyToBeAdded);
-			//modelAndView.addObject("moneyToBeAdded", moneyToBeAdded);
+			// modelAndView.addObject("moneyToBeAdded", moneyToBeAdded);
 			model.addAttribute("messageFlight", message);
-			//model.addAttribute("messageHotel", null);
+			// model.addAttribute("messageHotel", null);
 			String departureDate = (String) model.get("departureDate");
 			modelAndView.addObject("departureDate", departureDate);
 			modelAndView.addObject("wallet", new Wallet());
@@ -411,11 +432,11 @@ public class UserController {
 	}
 
 	@RequestMapping("/PaymentHotel")
-	public ModelAndView returnPaymentHotel(ModelAndView modelAndView,
-			@ModelAttribute("pickedPromoCode") Promotion promotion1, ModelMap model)
+	public ModelAndView returnPaymentHotel(@ModelAttribute("pickedPromoCode") Promotion promotion1, ModelMap model)
 			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
 		String hotelIDPicked = (String) model.get("pickedHotelID");
-		Promotion promotion=promotionBlMMT.searchPromotion(promotion1.getPromotionId());
+		Promotion promotion = promotionBlMMT.searchPromotion(promotion1.getPromotionId());
 		User user = (User) model.get("userSession");
 		int noOfRooms = (int) model.get("noOfRooms");
 		double roomPrice = (double) model.get("RoomPrice");
@@ -469,12 +490,13 @@ public class UserController {
 	}
 
 	@RequestMapping("/MoneyAddded")
-	public ModelAndView returnMoneyAddded(ModelAndView modelAndView, ModelMap model,
-			@ModelAttribute("wallet") Wallet wallet) throws ClassNotFoundException, SQLException, IOException {
-	
+	public ModelAndView returnMoneyAddded(ModelMap model, @ModelAttribute("wallet") Wallet wallet)
+			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
+
 		User user = (User) model.get("userSession");
 		System.out.println();
-		System.out.println("sdjkhsdbWALLET: "+wallet.getWalletBalance());
+		System.out.println("sdjkhsdbWALLET: " + wallet.getWalletBalance());
 		System.out.println();
 		boolean value = false;
 		String msg = "";
@@ -499,8 +521,9 @@ public class UserController {
 	}
 
 	@RequestMapping("/ConfirmFlightBooking")
-	public ModelAndView returnConfirmBooking(ModelAndView modelAndView, ModelMap model,HttpSession session)
+	public ModelAndView returnConfirmBooking(ModelMap model, HttpSession session)
 			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
 		WalletBlMMT walletBlMMT = new WalletBlMMT();
 		boolean paymentStatus = false;
 		double valueAfterPromotion = (double) model.get("finalValuetobepaid");
@@ -522,7 +545,7 @@ public class UserController {
 				model.remove("messageFlight");
 				session.removeAttribute("messageFlight");
 				String messageFlight = (String) model.get("messageFlight");
-				model.addAttribute("flightBooking", flightBooking );
+				model.addAttribute("flightBooking", flightBooking);
 				modelAndView.setViewName("FinalFlightStep");
 			} else if (flightBooking == null) {
 
@@ -540,8 +563,9 @@ public class UserController {
 	}
 
 	@RequestMapping("/ConfirmHotelBooking")
-	public ModelAndView returnConfirmHotelBooking(ModelAndView modelAndView, ModelMap model, HttpSession session) throws ClassNotFoundException, SQLException, IOException {
-
+	public ModelAndView returnConfirmHotelBooking( ModelMap model, HttpSession session)
+			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
 		double valueAfterPromotion = (double) model.get("finalValuetobepaidHotel");
 		User user = (User) model.get("userSession");
 		boolean paymentStatus = false;
@@ -563,17 +587,17 @@ public class UserController {
 			if (hotelBooking != null) {
 
 				String messageHotel = (String) model.get("messageHotel");
-//				messageHotel = null;
-			model.addAttribute("hotelBooking", hotelBooking);
+				// messageHotel = null;
+				model.addAttribute("hotelBooking", hotelBooking);
 				model.remove("messageHotel");
 				session.removeAttribute("messageHotel");
-				//modelAndView.addObject("messageHotel", messageHotel);
+				// modelAndView.addObject("messageHotel", messageHotel);
 				modelAndView.setViewName("FinalHotelStep");
 
 			} else {
 
 				paymentStatus = walletBl.addWalletMoney(user.getUserId(), valueAfterPromotion);
-				
+
 				String messageHotel = (String) model.get("messageHotel");
 				model.remove("messageHotel");
 				session.removeAttribute("messageHotel");
@@ -583,24 +607,25 @@ public class UserController {
 
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/ConfirmFlightBooking2")
 	public ModelAndView returnConfirmFlightBooking(ModelMap model) {
 		ModelAndView modelAndView = new ModelAndView();
 		System.out.println("Entered into Flight");
-		Flight flightPicked=(Flight) model.get("pickedFlight");
-		modelAndView.addObject("flightPicked",flightPicked);
+		Flight flightPicked = (Flight) model.get("pickedFlight");
+		modelAndView.addObject("flightPicked", flightPicked);
 		modelAndView.setViewName("ConfirmFlightBooking");
 		return modelAndView;
 
 	}
-	
+
 	@RequestMapping("/ConfirmHotelBooking2")
-	public ModelAndView returnConfirmHotelBooking(ModelMap model) throws ClassNotFoundException, IOException, SQLException {
+	public ModelAndView returnConfirmHotelBooking(ModelMap model)
+			throws ClassNotFoundException, IOException, SQLException {
 		System.out.println("Entered Into Htoel");
 		ModelAndView modelAndView = new ModelAndView();
-		String pickedHotelID=(String) model.get("pickedHotelID");
-		Hotel hotel=hotelBlMMT.searchHotel(pickedHotelID);
+		String pickedHotelID = (String) model.get("pickedHotelID");
+		Hotel hotel = hotelBlMMT.searchHotel(pickedHotelID);
 		modelAndView.addObject("hotel", hotel);
 		modelAndView.setViewName("ConfirmHotelBooking");
 		return modelAndView;
@@ -608,8 +633,9 @@ public class UserController {
 	}
 
 	@RequestMapping("/UserPastFlight")
-	public ModelAndView returnUserPastFlight(ModelAndView modelAndView, ModelMap model)
+	public ModelAndView returnUserPastFlight( ModelMap model)
 			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
 		User user = (User) model.get("userSession");
 		ArrayList<FlightBooking> bookedFlightList = blMMT.pastFbooking(user.getUserId());
 		modelAndView.addObject("bookedFlightList", bookedFlightList);
@@ -617,10 +643,11 @@ public class UserController {
 		return modelAndView;
 
 	}
-	
+
 	@RequestMapping("/UserPastHotel")
-	public ModelAndView returnUserPastHotel(ModelAndView modelAndView, ModelMap model)
+	public ModelAndView returnUserPastHotel(ModelMap model)
 			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
 		User user = (User) model.get("userSession");
 		ArrayList<HotelBooking> bookedHotelList = blMMT.pastHbooking(user.getUserId());
 		modelAndView.addObject("bookedHotelList", bookedHotelList);
@@ -630,8 +657,9 @@ public class UserController {
 	}
 
 	@RequestMapping("/ViewPastFlight")
-	public ModelAndView returnViewPastFlight(ModelAndView modelAndView, ModelMap model, HttpSession session)
+	public ModelAndView returnViewPastFlight(ModelMap model, HttpSession session)
 			throws ClassNotFoundException, SQLException, IOException {
+		ModelAndView modelAndView = new ModelAndView();
 		Flight flight = new Flight();
 		flight = flightBookingBlMMT.searchFlight((String) session.getAttribute("viewFlightId"));
 		modelAndView.addObject("viewedFlightDetails", flight);
@@ -642,22 +670,26 @@ public class UserController {
 	}
 
 	@RequestMapping("/Logout")
-	public ModelAndView returnLogout(ModelAndView modelAndVieW, HttpSession session) {
+	public ModelAndView returnLogout(HttpSession session, ModelMap model) {
+		ModelAndView modelAndVieW = new ModelAndView();
 		session.invalidate();
+		model.remove("userSession");
 		modelAndVieW.setViewName("login");
 		return modelAndVieW;
 
 	}
 
 	@RequestMapping("/Wallet")
-	public ModelAndView returnWallet(ModelAndView modelAndVieW) {
+	public ModelAndView returnWallet() {
+		ModelAndView modelAndVieW = new ModelAndView();
 		modelAndVieW.setViewName("Wallet");
 		return modelAndVieW;
 
 	}
 
 	@RequestMapping("/UserProfile")
-	public ModelAndView returnUserProfile(ModelAndView modelAndVieW, ModelMap model) {
+	public ModelAndView returnUserProfile(ModelMap model) {
+		ModelAndView modelAndVieW= new ModelAndView();
 		User user = (User) model.get("userSession");
 		modelAndVieW.addObject("user", user);
 		modelAndVieW.setViewName("UserProfile");

@@ -6,9 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Repository;
+
 import com.mmt.model.bean.Admin;
 
-
+@Repository
 public class AdminDaoImplMMT implements AdminDao{
 	
 	//insert function for the admin board
